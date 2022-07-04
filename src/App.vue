@@ -1,9 +1,25 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link class="router" to="/">Presentacion</router-link> |
+    <router-link class="router" to="/home">Home</router-link>
   </nav>
   <div class="container">
     <router-view />
   </div>
 </template>
+
+<style scoped>
+nav {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+}
+.router {
+  margin-bottom: 50px;
+  text-decoration:none;
+  margin-left: 5px;
+  margin-right: 5px;
+  color:green;
+}
+
+</style>
