@@ -3,11 +3,11 @@
         <div class="buscadores d-flex justify-content-center">
             <div class="m-3">
                 <div>Cliente</div>
-                <input type="text" v-model="search1" >
+                <input type="text" v-model="search1" @keyup.enter="$emit('buscar',search1)" @keyup.delete="$emit('borrar')" placeholder="Press enter">
             </div>
             <div class="m-3">
                 <div>Nombre de Presupuesto</div>
-                <input type="text" v-model="search2">
+                <input type="text" v-model="search2" @keyup.enter="$emit('buscar2',search2)" @keyup.delete="$emit('borrar')" placeholder="Press enter">
             </div>
         </div>
         <div class="botones row d-flex justify-content-center mb-4">
@@ -39,7 +39,6 @@
 </template>
 
 <script>
-
 export default {
     name: 'PressupostList',
     props: {
@@ -50,9 +49,6 @@ export default {
             search1: "",
             search2: ""
         }
-    },
-    computed:{
-
     }
 }
 </script>

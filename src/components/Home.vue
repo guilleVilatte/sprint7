@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-lg-6 mb-3 ms-5 ms-lg-0">
             <h3>¿Que quieres hacer?</h3>
             <div class="cliente">
                 <div>Cliente</div>
@@ -14,32 +14,33 @@
                 <div>Fecha</div>
                 <input type="date" id="fecha" v-model="fecha">
             </div>
+            <router-link class="principal" :to="{name:'home',query:{páginaWeb:this.check1,campaniaSeo:this.check2,campaniaAds:this.check3,nPáginas:this.myPages,nIdiomas:this.myIdiomas}}">
             <div class="checks one">
-                <input type="checkbox" id="box1" @click="value1" value="first_checkbox" v-model="check1" />
-                Una página web (500 €)
+                <input type="checkbox" id="box1" @click="value1" value="first_checkbox" v-model="check1"  />
+                <label for="box1">Una página web (500 €)</label> 
                 <Panel v-if="check1 === true" @pag="pages" @idiom="idiomas">
                 </Panel>
             </div>
             <div class="checks">
                 <input type="checkbox" id="box2" @click="value2" value="second_checkbox" v-model="check2" />
-                Hacer una consultoria SEO (300 €)
+                <label for="box2"> Hacer una consultoria SEO (300 €)</label>
             </div>
             <div class="checks">
-                <input type="checkbox" id="box3" @click="value3" value="third_checkbox" v-model="check3" /> Una campanya
-                de
-                Google
-                Ads (200 €)
+                <input type="checkbox" id="box3" @click="value3" value="third_checkbox" v-model="check3" /> <label for="box2">Una campanya de Google Ads (200 €)</label>
             </div>
+            </router-link>
             <div class="total">Precio = {{ total }} €</div>
-            <button type="button" class="save btn btn-danger" @click="savePressupost">Guardar</button>
+            <button type="button" class="save btn btn-danger col-3" @click="savePressupost">Guardar</button>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-lg-6">
             <PressupostList 
             :presupuestos="postPresupuestos" 
             @orderOne="alphabeticOrder" 
             @orderTwo="dateOrder"
             @firstOne="restart"
-            @buscar="buscarCliente">
+            @buscar="buscarCliente"
+            @buscar2="buscarNombrePres"
+            @borrar="borrarBusqueda">
             </PressupostList>
         </div>
     </div>
@@ -67,7 +68,8 @@ export default {
             fecha: '',
             postPresupuestos: [],
             servicio: '',
-            ordenInicial: []
+            ordenInicial: [],
+            buscoCliente: []
         };
     },
     methods: {
@@ -137,8 +139,8 @@ export default {
 
             if (this.cliente != '' && this.nombrePres != '' && this.fecha != '' && this.total != 0) {
                 this.postPresupuestos.push({
-                    cliente: this.cliente,
-                    nombrePres: this.nombrePres,
+                    cliente: this.cliente.toLowerCase(),
+                    nombrePres: this.nombrePres.toLowerCase(),
                     servicio: this.servicio,
                     fecha: this.fecha,
                     total: this.total
@@ -211,7 +213,19 @@ export default {
             }
         },
         buscarCliente(search1) {
-            this.postPresupuestos.filter(presupuesto => presupuesto.cliente == search1)
+            if(this.postPresupuestos.length > 1){
+            this.buscoCliente = JSON.parse(JSON.stringify(this.postPresupuestos))
+            }
+            this.postPresupuestos = this.postPresupuestos.filter(presupuesto => presupuesto.cliente.includes(search1.toLowerCase()))
+        },
+        buscarNombrePres(search2) {
+            if(this.postPresupuestos.length > 1){
+            this.buscoCliente = JSON.parse(JSON.stringify(this.postPresupuestos))
+            }
+            this.postPresupuestos = this.postPresupuestos.filter(presupuesto => presupuesto.nombrePres.includes(search2.toLowerCase()))
+        },
+        borrarBusqueda(){
+            this.postPresupuestos = this.buscoCliente
         }
     },
     components: { Panel, PressupostList }
@@ -239,5 +253,13 @@ export default {
 
 .save {
     margin-top: 10px;
+}
+.principal{
+    text-decoration:none;
+    cursor: default;
+    color: black;
+}
+input[type=checkbox]{
+    cursor:pointer
 }
 </style>

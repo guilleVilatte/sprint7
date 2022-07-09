@@ -4,9 +4,16 @@
     <router-link class="router text-danger" to="/home">Home</router-link>
   </nav>
   <div class="container">
-    <router-view />
+    <router-view></router-view>
   </div>
 </template>
+
+<script>
+export default{
+
+
+}
+</script>
 
 <style scoped>
 nav {
