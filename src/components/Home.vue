@@ -16,17 +16,17 @@
             </div>
             <router-link class="principal" :to="{name:'home',query:{páginaWeb:this.checks[0],campaniaSeo:this.checks[1],campaniaAds:this.checks[2],nPáginas:this.myPages,nIdiomas:this.myIdiomas}}">
             <div class="checks one">
-                <input type="checkbox" id="box1" @click="value1" :value="checks[0]" v-model="checks[0]"  />
+                <input type="checkbox" id="box1" @click="value1" :value="checksValues[0]" v-model="checks[0]"  />
                 <label for="box1">Una página web (500 €)</label> 
                 <Panel v-if="checks[0] === true" @pag="pages" @idiom="idiomas">
                 </Panel>
             </div>
             <div class="checks">
-                <input type="checkbox" id="box2" @click="value2" :value="checks[1]" v-model="checks[1]" />
+                <input type="checkbox" id="box2" @click="value2" :value="checksValues[1]" v-model="checks[1]" />
                 <label for="box2"> Hacer una consultoria SEO (300 €)</label>
             </div>
             <div class="checks">
-                <input type="checkbox" id="box3" @click="value3" :value="checks[2]" v-model="checks[2]" /> <label for="box2">Una campanya de Google Ads (200 €)</label>
+                <input type="checkbox" id="box3" @click="value3" :value="checksValues[2]" v-model="checks[2]" /> <label for="box2">Una campanya de Google Ads (200 €)</label>
             </div>
             </router-link>
             <div class="total">Precio = {{ total }} €</div>
