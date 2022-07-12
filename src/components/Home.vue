@@ -14,19 +14,19 @@
                 <div>Fecha</div>
                 <input type="date" id="fecha" v-model="fecha">
             </div>
-            <router-link class="principal" :to="{name:'home',query:{páginaWeb:this.check1,campaniaSeo:this.check2,campaniaAds:this.check3,nPáginas:this.myPages,nIdiomas:this.myIdiomas}}">
+            <router-link class="principal" :to="{name:'home',query:{páginaWeb:this.checks[0],campaniaSeo:this.checks[1],campaniaAds:this.checks[2],nPáginas:this.myPages,nIdiomas:this.myIdiomas}}">
             <div class="checks one">
-                <input type="checkbox" id="box1" @click="value1" value="first_checkbox" v-model="check1"  />
+                <input type="checkbox" id="box1" @click="value1" :value="checks[0]" v-model="checks[0]"  />
                 <label for="box1">Una página web (500 €)</label> 
-                <Panel v-if="check1 === true" @pag="pages" @idiom="idiomas">
+                <Panel v-if="checks[0] === true" @pag="pages" @idiom="idiomas">
                 </Panel>
             </div>
             <div class="checks">
-                <input type="checkbox" id="box2" @click="value2" value="second_checkbox" v-model="check2" />
+                <input type="checkbox" id="box2" @click="value2" :value="checks[1]" v-model="checks[1]" />
                 <label for="box2"> Hacer una consultoria SEO (300 €)</label>
             </div>
             <div class="checks">
-                <input type="checkbox" id="box3" @click="value3" value="third_checkbox" v-model="check3" /> <label for="box2">Una campanya de Google Ads (200 €)</label>
+                <input type="checkbox" id="box3" @click="value3" :value="checks[2]" v-model="checks[2]" /> <label for="box2">Una campanya de Google Ads (200 €)</label>
             </div>
             </router-link>
             <div class="total">Precio = {{ total }} €</div>
@@ -53,14 +53,10 @@ import PressupostList from "./PressupostList.vue";
 export default {
     data() {
         return {
-            check1: false,
-            check2: false,
-            check3: false,
+            checks: [false,false,false],
             myPages: 1,
             myIdiomas: 1,
-            check1value: 0,
-            check2value: 0,
-            check3value: 0,
+            checksValues: [0,0,0],
             subtotal: 0,
             total: 0,
             nombrePres: '',
@@ -74,43 +70,43 @@ export default {
     },
     methods: {
         value1() {
-            if (this.check1 === false) {
-                this.check1 = true
-                this.check1value = 500
+            if (this.checks[0] === false) {
+                this.checks[0] = true
+                this.checksValues[0] = 500
                 this.subtotal = this.myPages * this.myIdiomas * 30
-                this.total = this.total + this.check1value + this.subtotal;
+                this.total = this.total + this.checksValues[0] + this.subtotal;
             }
             else {
-                this.check1 = false
+                this.checks[0] = false
                 this.myPages = 1
                 this.myIdiomas = 1
-                this.total = this.total - this.check1value - this.subtotal
+                this.total = this.total - this.checksValues[0] - this.subtotal
                 this.subtotal = 0
-                this.check1value = 0
+                this.checksValues[0] = 0
             }
         },
         value2() {
-            if (this.check2 === false) {
-                this.check2 = true
-                this.check2value = 300
-                this.total = this.total + this.check2value
+            if (this.checks[1] === false) {
+                this.checks[1] = true
+                this.checksValues[1] = 300
+                this.total = this.total + this.checksValues[1]
             }
             else {
-                this.check2 = false
-                this.total = this.total - this.check2value
-                this.check2value = 0
+                this.checks[1] = false
+                this.total = this.total - this.checksValues[1]
+                this.checksValues[1] = 0
             }
         },
         value3() {
-            if (this.check3 === false) {
-                this.check3 = true
-                this.check3value = 200
-                this.total = this.total + this.check3value
+            if (this.checks[2] === false) {
+                this.checks[2] = true
+                this.checksValues[2] = 200
+                this.total = this.total + this.checksValues[2]
             }
             else {
-                this.check3 = false;
-                this.total = this.total - this.check3value
-                this.check3value = 0
+                this.checks[2] = false;
+                this.total = this.total - this.checksValues[2]
+                this.checksValues[2] = 0
             }
         },
         pages(val) {
@@ -124,16 +120,16 @@ export default {
         incrementar() {
             this.subtotal = 0
             this.subtotal = this.myPages * this.myIdiomas * 30
-            this.total = this.check1value + this.check2value + this.check3value + this.subtotal
+            this.total = this.checksValues[0] + this.checksValues[1] + this.checksValues[2] + this.subtotal
         },
         savePressupost() {
-            if (this.check1 == true) {
+            if (this.checks[0] == true) {
                 this.servicio += "'Página web'"
             }
-            if (this.check2 == true) {
+            if (this.checks[1] == true) {
                 this.servicio += " 'Consultoría SEO'"
             }
-            if (this.check3 == true) {
+            if (this.checks[2] == true) {
                 this.servicio += " 'Google Adds'"
             }
 
@@ -151,16 +147,12 @@ export default {
             this.myIdiomas = 1
             this.myPages = 1
             this.subtotal = 0
-            this.check1value = 0
-            this.check2value = 0
-            this.check3value = 0
+            this.checksValues = [0,0,0]
             this.nombrePres = ''
             this.cliente = ''
             this.servicio = ''
             this.fecha = ''
-            this.check1 = false
-            this.check2 = false
-            this.check3 = false
+            this.checks = [false,false,false]
         },
         alphabeticOrder() {
             if (this.ordenInicial.length == 0 || this.ordenInicial.length != this.postPresupuestos.length) {
@@ -216,7 +208,7 @@ export default {
             if(this.postPresupuestos.length > 1){
             this.buscoCliente = JSON.parse(JSON.stringify(this.postPresupuestos))
             }
-            this.postPresupuestos = this.postPresupuestos.filter(presupuesto => presupuesto.cliente.includes(search1.toLowerCase()))
+            this.postPresupuestos = this.postPresupuestos.filter(presupuesto => presupuesto.cliente == search1.toLowerCase())
         },
         buscarNombrePres(search2) {
             if(this.postPresupuestos.length > 1){

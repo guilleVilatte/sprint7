@@ -75,11 +75,11 @@ export default {
       this.idiomas++
     },
     restaPage() {
-      if (this.pages > 0)
+      if (this.pages > 1)
         this.pages--
     },
     restaIdiom() {
-      if (this.idiomas > 0)
+      if (this.idiomas > 1)
         this.idiomas--
     }
   }
